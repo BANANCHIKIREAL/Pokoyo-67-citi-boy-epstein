@@ -1,0 +1,313 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #2c1810 0%, #4a2c1a 50%, #1a0e08 100%);
+    min-height: 100vh;
+    color: #f4e4d4;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.05) 35px, rgba(255,255,255,.05) 70px),
+        repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(0,0,0,.03) 35px, rgba(0,0,0,.03) 70px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.game-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 30px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid #8b4513;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.game-header h1 {
+    font-size: 2.5em;
+    color: #ffd700;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8), 0 0 10px #ffd700; }
+    to { text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8), 0 0 20px #ffd700, 0 0 30px #ff8c00; }
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.coins-display, .per-second {
+    background: rgba(139, 69, 19, 0.4);
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid #8b4513;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.coin-icon {
+    font-size: 1.5em;
+    margin-right: 5px;
+}
+
+.coin-name {
+    color: #daa520;
+    margin-left: 5px;
+}
+
+.game-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .game-main {
+        grid-template-columns: 1fr;
+    }
+}
+
+.click-area {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid #654321;
+}
+
+.clicker-container {
+    position: relative;
+    display: inline-block;
+    margin: 20px 0;
+}
+
+.clicker-image {
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    border: 5px solid #8b4513;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+    object-fit: cover;
+}
+
+.clicker-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8);
+}
+
+.clicker-image:active {
+    transform: scale(0.95);
+}
+
+.click-effect {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    font-weight: bold;
+    color: #ffd700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    opacity: 0;
+    animation: floatUp 1s ease-out;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -150%);
+    }
+}
+
+.click-power {
+    margin-top: 15px;
+    font-size: 1.1em;
+    color: #daa520;
+    font-weight: bold;
+}
+
+.upgrades-section {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid #654321;
+}
+
+.upgrades-section h2 {
+    text-align: center;
+    color: #ffd700;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.upgrades-grid {
+    display: grid;
+    gap: 15px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.upgrades-grid::-webkit-scrollbar {
+    width: 8px;
+}
+
+.upgrades-grid::-webkit-scrollbar-track {
+    background: rgba(139, 69, 19, 0.3);
+    border-radius: 4px;
+}
+
+.upgrades-grid::-webkit-scrollbar-thumb {
+    background: #8b4513;
+    border-radius: 4px;
+}
+
+.upgrade-item {
+    background: rgba(139, 69, 19, 0.3);
+    border: 2px solid #8b4513;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.upgrade-item:hover:not(.disabled) {
+    background: rgba(139, 69, 19, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.upgrade-item.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba(50, 50, 50, 0.3);
+}
+
+.upgrade-item.disabled::before {
+    content: '💰';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3em;
+    opacity: 0.3;
+}
+
+.upgrade-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.upgrade-name {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #ffd700;
+}
+
+.upgrade-cost {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #ff6b6b;
+}
+
+.upgrade-item.disabled .upgrade-cost {
+    color: #ff6b6b;
+}
+
+.upgrade-item.affordable {
+    border-color: #4ecdc4;
+    background: rgba(78, 205, 196, 0.2);
+    box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+}
+
+.upgrade-item.affordable:hover {
+    background: rgba(78, 205, 196, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(78, 205, 196, 0.5);
+}
+
+.upgrade-item.affordable .upgrade-cost {
+    color: #4ecdc4;
+    text-shadow: 0 0 5px rgba(78, 205, 196, 0.5);
+}
+
+.upgrade-description {
+    color: #f4e4d4;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.upgrade-owned {
+    color: #daa520;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.game-footer {
+    text-align: center;
+    margin-top: 30px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border: 1px solid #8b4513;
+    color: #daa520;
+    font-weight: bold;
+}
+
+/* Анимация для получения монет */
+@keyframes coinPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.coins-display.pulse {
+    animation: coinPulse 0.3s ease;
+}
